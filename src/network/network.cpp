@@ -1,3 +1,6 @@
+#include <WiFi.h>
+#include <WebServer.h>
+#include <WebSocketsServer.h>
 #include <network/network.h>
 #include <network/web_handler.h>
 
