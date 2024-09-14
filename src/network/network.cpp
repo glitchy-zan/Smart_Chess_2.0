@@ -1,1 +1,1 @@
-#include "../include/hardware/network.h"
+#include "../include/network/network.h"
