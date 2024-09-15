@@ -1,17 +1,16 @@
 #include <network/web_handler.h>
+#include <network/network.h>
 
 /* displays web page on "/" route */
 void handleRoot()
 {
-
     String html = "<html><body>";
-    /*
-    html += "<pre>Game info: <span id='game_info'>" + gameStateToString(gameState) + "</span></pre>";
-    html += "<pre>Move info: <span id='move_info'>" + moveStateToString(moveState) + "</span></pre>";
-    html += "<pre>Piece info: <span id='piece_info'>" + pieceStateToString(pieceState) + "</span></pre>";
+
+    html += "<pre>Game info: <span id='game_info'>" + gameStateToString(currentGameState) + "</span></pre>";
+    html += "<pre>Move info: <span id='move_info'>" + moveStateToString(currentMoveState) + "</span></pre>";
+    html += "<pre>Piece info: <span id='piece_info'>" + pieceStateToString(currentPieceState) + "</span></pre>";
     html += "<pre>PGN: <span id='pgn_info'>" + pgn + "</span></pre>";
-*/
-    html += "Hello World";
+
     html += "<script>";
     html += "var connection = new WebSocket('ws://' + location.hostname + ':81');";
     html += "connection.onopen = function() { console.log('WebSocket connected'); };";

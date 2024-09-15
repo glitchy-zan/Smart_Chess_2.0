@@ -2,7 +2,7 @@
 #include <hardware/button.h>
 #include <hardware/pin_config.h>
 
-bool flag_button_pressed = false;
+bool flagButtonPressed = false;
 
 /* ISR for button press */
 void IRAM_ATTR handleButtonPress()
@@ -13,7 +13,7 @@ void IRAM_ATTR handleButtonPress()
     if (interruptTime - lastInterruptTime > 500)
     { // 500 ms debounce time
         lastInterruptTime = interruptTime;
-        flag_button_pressed = true; // Set the flag
+        flagButtonPressed = true; // Set the flag
     }
 }
 

@@ -4,7 +4,7 @@
 #include <util/util.h>
 
 /* Showing 0 || 1 depending on sensors detecting magnets */
-int sensors_board[8][8];
+int sensorsBoard[8][8];
 
 /* Reads whole sensor board */
 void readSensors()
@@ -13,19 +13,19 @@ void readSensors()
     for (int row = 0; row < 8; row++)
     {
         unsigned char value = readShiftRegister(sens_row_ALL_out_pin[row]);
-        unsignedCharToIntArray(value, sensors_board[row]);
+        unsignedCharToIntArray(value, sensorsBoard[row]);
 
         /*
                 // development -> TODO delete
                 // [row][0] -> H, [row][7] -> A
-                Serial.print(sensors_board[row][0]);
-                Serial.print(sensors_board[row][1]);
-                Serial.print(sensors_board[row][2]);
-                Serial.print(sensors_board[row][3]);
-                Serial.print(sensors_board[row][4]);
-                Serial.print(sensors_board[row][5]);
-                Serial.print(sensors_board[row][6]);
-                Serial.println(sensors_board[row][7]);
+                Serial.print(sensorsBoard[row][0]);
+                Serial.print(sensorsBoard[row][1]);
+                Serial.print(sensorsBoard[row][2]);
+                Serial.print(sensorsBoard[row][3]);
+                Serial.print(sensorsBoard[row][4]);
+                Serial.print(sensorsBoard[row][5]);
+                Serial.print(sensorsBoard[row][6]);
+                Serial.println(sensorsBoard[row][7]);
                 */
     }
 }

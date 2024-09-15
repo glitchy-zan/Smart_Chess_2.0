@@ -3,6 +3,7 @@
 #include <hardware/button.h>
 #include <hardware/pin_config.h>
 #include <hardware/sensor.h>
+#include <state_machine/state_managing.h>
 
 void setup()
 {
@@ -25,5 +26,7 @@ void loop()
     handleClientRequests();
     handleWebSocketCommunication();
     readSensors();
-    //delay(2000);
+    handleStates();
+    sendUpdate();
+    // delay(2000);
 }

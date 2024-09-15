@@ -10,7 +10,7 @@ void setUpWebSocket();
 void setUpServer();
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length);
 void handleClientRequests();
-void handleWebsocketCommunication();
+void handleWebSocketCommunication();
 
 /* WiFi credentials for the ESP32 access point */
 const char *ssid = "ESP32Net";
@@ -70,4 +70,66 @@ void handleClientRequests()
 void handleWebSocketCommunication()
 {
     webSocket.loop();
+}
+
+/* Sends update of states and moves to all clients. handle_root function then displays it to web page */
+void sendUpdate()
+{
+    String json = "{\"pgn\":\"" + pgn + "\","
+                                        "\"game\":\"" +
+                  gameStateToString(currentGameState) + "\","
+                                                  "\"move\":\"" +
+                  moveStateToString(currentMoveState) + "\","
+                                                  "\"piece\":\"" +
+                  pieceStateToString(currentPieceState) + "\"}";
+    webSocket.broadcastTXT(json);
+}
+
+String gameStateToString(GameStateEnum state)
+{
+    switch (state)
+    {
+    case GameStateEnum::IDLE:
+        return "Game has not started.";
+    case GameStateEnum::RUNNING:
+        return "Game is running.";
+    case GameStateEnum::GAME_OVER:
+        return "Game has ended.";
+    default:
+        return "UNKNOWN";
+    }
+}
+
+String moveStateToString(MoveStateEnum state)
+{
+    switch (state)
+    {
+    case MoveStateEnum::IDLE:
+        return "IDLE";
+    case MoveStateEnum::IN_PROGRESS:
+        return "Move is in progress.";
+    case MoveStateEnum::MOVE_MADE:
+        return "Move has been made.";
+    default:
+        return "UNKNOWN";
+    }
+}
+
+String pieceStateToString(PieceStateEnum state)
+{
+    switch (state)
+    {
+    case PieceStateEnum::IDLE:
+        return "IDLE";
+    case PieceStateEnum::PIECE_LIFTED:
+        return "One Piece is lifted.";
+    case PieceStateEnum::SECOND_PIECE_LIFTED:
+        return "Two pieces are lifted.";
+    case PieceStateEnum::MULTIPLE_PIECES_LIFTED:
+        return "Multiple pieces are lifted.";
+    case PieceStateEnum::CHANGED:
+        return "CHANGED";
+    default:
+        return "UNKNOWN";
+    }
 }
