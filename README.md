@@ -15,6 +15,7 @@ This project turns a traditional chessboard into a smart chessboard using an ESP
 - [Hardware Setup](#hardware-setup)
 - [Software Installation](#software-installation)
 - [How It Works](#how-it-works)
+- [Video presentation](#Video-presentation)
 
 ## Getting Started
 
