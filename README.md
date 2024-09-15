@@ -54,4 +54,5 @@ To run this project, you will need:
 - **PGN Generation:** The moves are converted into Portable Game Notation (PGN) format, a standard for recording chess games.
 - **Access Point:** The ESP32 creates a local Wi-Fi network. Users can connect to it and view the PGN through a web browser by navigating to the default IP address.
 
-
+### Video presentation
+yt: https://youtube.com/shorts/g3ANoQOUdOU
