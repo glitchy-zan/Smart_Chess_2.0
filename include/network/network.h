@@ -16,5 +16,7 @@ extern GameStateEnum currentGameState;
 extern MoveStateEnum currentMoveState;
 extern PieceStateEnum currentPieceState;
 extern String pgn;
+extern int msBoard[8][8]; 
+extern int sensorsBoard[8][8];
 
 #endif // NETWORK_H

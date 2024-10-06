@@ -55,6 +55,23 @@ std::vector<std::pair<int, int>> getLiftedLocations(int board_lifted[8][8], int 
     return lifted_locations;
 }
 
+/* get locations of squares where pieces were placed; board placed should be sensors board; board last state should be ms_board */
+std::vector<std::pair<int, int>> getPlacedLocations(int board_placed[8][8], int board_last_state[8][8])
+{
+    std::vector<std::pair<int, int>> placed_locations;
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (board_placed[i][j] != 0 && board_last_state[i][j] == 0)
+            {
+                placed_locations.push_back(std::make_pair(i, j));
+            }
+        }
+    }
+    return placed_locations;
+}
+
 /* compares 2 boards and checks if pieces are placed on same squares */
 bool isSamePosition(int board_1[8][8], int board_2[8][8])
 {
@@ -186,5 +203,19 @@ void updatePgn(int &onMove, int &moveNum, String &pgn, int board[8][8], int star
         pgn += ". ";
     }
     pgn += generatePgnMove(board, startRow, startCol, endRow, endCol);
+    pgn += " ";
+}
+
+void updatePgnCastling(int &onMove, int &moveNum, String &pgn, int isCastling)
+{
+    if (onMove == 1)
+    {
+        pgn += String(moveNum);
+        pgn += ". ";
+    }
+    if (isCastling == 0 || isCastling == 2)
+        pgn += "0-0";
+    else
+        pgn += "0-0-0";
     pgn += " ";
 }

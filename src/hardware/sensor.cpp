@@ -16,17 +16,17 @@ void readSensors()
         unsignedCharToIntArray(value, sensorsBoard[row]);
 
         /*
-                // development -> TODO delete
-                // [row][0] -> H, [row][7] -> A
-                Serial.print(sensorsBoard[row][0]);
-                Serial.print(sensorsBoard[row][1]);
-                Serial.print(sensorsBoard[row][2]);
-                Serial.print(sensorsBoard[row][3]);
-                Serial.print(sensorsBoard[row][4]);
-                Serial.print(sensorsBoard[row][5]);
-                Serial.print(sensorsBoard[row][6]);
-                Serial.println(sensorsBoard[row][7]);
-                */
+            // development -> TODO delete
+            // [row][0] -> H, [row][7] -> A
+            Serial.print(sensorsBoard[row][0]);
+            Serial.print(sensorsBoard[row][1]);
+            Serial.print(sensorsBoard[row][2]);
+            Serial.print(sensorsBoard[row][3]);
+            Serial.print(sensorsBoard[row][4]);
+            Serial.print(sensorsBoard[row][5]);
+            Serial.print(sensorsBoard[row][6]);
+            Serial.println(sensorsBoard[row][7]);
+          */
     }
 }
 

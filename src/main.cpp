@@ -28,5 +28,5 @@ void loop()
     readSensors();
     handleStates();
     sendUpdate();
-    // delay(2000);
+    //delay(2000);
 }

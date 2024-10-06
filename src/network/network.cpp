@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include <ArduinoJson.h>
 #include <WebServer.h>
 #include <WebSocketsServer.h>
 #include <network/network.h>
@@ -54,8 +55,26 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t length)
         break;
     }
     case WStype_TEXT:
+    {
         Serial.printf("[%u] Received text: %s\n", num, payload);
+        StaticJsonDocument<200> doc;
+        DeserializationError error = deserializeJson(doc, payload);
+
+        if (error)
+        {
+            Serial.print(F("Failed to parse JSON: "));
+            Serial.println(error.f_str());
+            return;
+        }
+        const char *action = doc["action"];
+        if (strcmp(action, "reset") == 0)
+        {
+            Serial.println("Reset game received from client.");
+            // Perform the reset operation on the ESP32 side
+            changeState(GameStateEnum::GAME_OVER, MoveStateEnum::IDLE, PieceStateEnum::IDLE);
+        }
         break;
+    }
     case WStype_BIN:
         Serial.printf("[%u] Received binary data\n", num);
         break;
@@ -78,10 +97,48 @@ void sendUpdate()
     String json = "{\"pgn\":\"" + pgn + "\","
                                         "\"game\":\"" +
                   gameStateToString(currentGameState) + "\","
-                                                  "\"move\":\"" +
+                                                        "\"move\":\"" +
                   moveStateToString(currentMoveState) + "\","
-                                                  "\"piece\":\"" +
-                  pieceStateToString(currentPieceState) + "\"}";
+                                                        "\"piece\":\"" +
+                  pieceStateToString(currentPieceState) + "\","
+                                                          "\"board\":[";
+
+    // Add the 8x8 msBoard array to the JSON
+    for (int i = 0; i < 8; i++)
+    {
+        json += "[";
+        for (int j = 0; j < 8; j++)
+        {
+            json += String(msBoard[i][j]);
+            if (j < 7)
+                json += ","; // Add a comma between elements, but not after the last one
+        }
+        json += "]";
+        if (i < 7)
+            json += ","; // Add a comma between rows, but not after the last one
+    }
+
+    json += "],";
+
+    json += "\"sensorsBoard\":[";
+    // Add the 8x8 anotherBoard array to the JSON
+    for (int i = 0; i < 8; i++)
+    {
+        json += "[";
+        for (int j = 0; j < 8; j++)
+        {
+            json += String(sensorsBoard[i][j]); // Assuming anotherBoard is defined similarly to msBoard
+            if (j < 7)
+                json += ","; // Add a comma between elements, but not after the last one
+        }
+        json += "]";
+        if (i < 7)
+            json += ","; // Add a comma between rows, but not after the last one
+    }
+
+    json += "]}";
+
+    // Broadcast the JSON string via WebSocket
     webSocket.broadcastTXT(json);
 }
 

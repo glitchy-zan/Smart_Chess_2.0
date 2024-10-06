@@ -21,6 +21,7 @@ enum class PieceStateEnum
     PIECE_LIFTED,
     SECOND_PIECE_LIFTED,
     MULTIPLE_PIECES_LIFTED,
+    CASTLING,
     CHANGED
 };
 
