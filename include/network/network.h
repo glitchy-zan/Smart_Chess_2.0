@@ -2,6 +2,7 @@
 #define NETWORK_H
 
 #include <state_machine/state_framework.h>
+#include <state_machine/state_managing.h>
 
 void setUpAccessPoint();
 void setUpWebSocket();
@@ -15,8 +16,7 @@ String pieceStateToString(PieceStateEnum state);
 extern GameStateEnum currentGameState;
 extern MoveStateEnum currentMoveState;
 extern PieceStateEnum currentPieceState;
-extern String pgn;
-extern int msBoard[8][8]; 
 extern int sensorsBoard[8][8];
+extern GameContext gameContext;
 
 #endif // NETWORK_H

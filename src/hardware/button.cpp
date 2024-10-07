@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <hardware/button.h>
-#include <hardware/pin_config.h>
 
 bool flagButtonPressed = false;
 

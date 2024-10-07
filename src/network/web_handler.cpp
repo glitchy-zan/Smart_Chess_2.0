@@ -9,7 +9,7 @@ void handleRoot()
     html += "<pre>Game info: <span id='game_info'>" + gameStateToString(currentGameState) + "</span></pre>";
     html += "<pre>Move info: <span id='move_info'>" + moveStateToString(currentMoveState) + "</span></pre>";
     html += "<pre>Piece info: <span id='piece_info'>" + pieceStateToString(currentPieceState) + "</span></pre>";
-    html += "<pre>PGN: <span id='pgn_info'>" + pgn + "</span></pre>";
+    html += "<pre>PGN: <span id='pgn_info'>" + gameContext.pgn + "</span></pre>";
 
     html += "<script>";
     html += "var connection = new WebSocket('ws://' + location.hostname + ':81');";

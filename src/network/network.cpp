@@ -94,7 +94,7 @@ void handleWebSocketCommunication()
 /* Sends update of states and moves to all clients. handle_root function then displays it to web page */
 void sendUpdate()
 {
-    String json = "{\"pgn\":\"" + pgn + "\","
+    String json = "{\"pgn\":\"" + gameContext.pgn + "\","
                                         "\"game\":\"" +
                   gameStateToString(currentGameState) + "\","
                                                         "\"move\":\"" +
@@ -109,7 +109,7 @@ void sendUpdate()
         json += "[";
         for (int j = 0; j < 8; j++)
         {
-            json += String(msBoard[i][j]);
+            json += String(gameContext.msBoard[i][j]);
             if (j < 7)
                 json += ","; // Add a comma between elements, but not after the last one
         }
