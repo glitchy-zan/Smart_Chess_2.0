@@ -95,7 +95,7 @@ void handleWebSocketCommunication()
 void sendUpdate()
 {
     String json = "{\"pgn\":\"" + gameContext.pgn + "\","
-                                        "\"game\":\"" +
+                                                    "\"game\":\"" +
                   gameStateToString(currentGameState) + "\","
                                                         "\"move\":\"" +
                   moveStateToString(currentMoveState) + "\","
@@ -186,6 +186,8 @@ String pieceStateToString(PieceStateEnum state)
         return "Multiple pieces are lifted.";
     case PieceStateEnum::CHANGED:
         return "CHANGED";
+    case PieceStateEnum::CASTLING:
+        return "CASTLING";
     default:
         return "UNKNOWN";
     }

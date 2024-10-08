@@ -12,7 +12,7 @@ void handleStates()
         proccessGameStateIdle();
         break;
     case GameStateEnum::RUNNING:
-        monitorPieceLiftings();
+        monitorPieceLiftings(gameContext);
         handleMoveState();
         break;
     case GameStateEnum::GAME_OVER:

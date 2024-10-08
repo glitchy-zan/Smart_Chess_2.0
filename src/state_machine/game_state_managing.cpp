@@ -10,5 +10,5 @@ void proccessGameStateIdle()
 /* when websocket receives action for reset */
 void proccessGameStateGameOver()
 {
-    resetGameVariables(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.firstPieceLiftedLocation, gameContext.secondPieceLiftedLocation, gameContext.isCapture, gameContext.isCastling);
+    resetGameVariables(gameContext);
 }

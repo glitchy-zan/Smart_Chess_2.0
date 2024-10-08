@@ -4,9 +4,9 @@ void handleMoveState()
 {
     switch (currentMoveState)
     {
+        /* when move state is IDLE piece state is also IDLE and since in both cases same code is executing we can do it like this */
+        /* TODO move state IDLE may maybe be removed */
     case MoveStateEnum::IDLE:
-        proccessMoveStateIdle();
-        break;
     case MoveStateEnum::IN_PROGRESS:
         handlePieceState();
         break;
@@ -20,6 +20,7 @@ void handleMoveState()
 
 /* when move state IDLE. We look at how many pieces are lifted (pieceLiftedLocations). */
 /* TODO should check that piece lifted is from player that is on move */
+/*
 void proccessMoveStateIdle()
 {
     if (gameContext.pieceLiftedLocations.size() == 1)
@@ -34,6 +35,7 @@ void proccessMoveStateIdle()
         gameContext.secondPieceLiftedLocation = {-1, -1};
     }
 }
+*/
 
 void proccessMoveStateMoveMade()
 {
@@ -66,22 +68,7 @@ void proccessMoveStateMoveMade()
     /* normal move */
     else if (!gameContext.isCapture)
     {
-        std::pair<int, int> placedPosition;
-        for (int i = 0; i < 8; i++)
-        {
-            for (int j = 0; j < 8; j++)
-            {
-                if (gameContext.msBoard[i][j] == 0 && sensorsBoard[i][j] != 0)
-                {
-                    placedPosition = {i, j};
-                }
-            }
-        }
-
-        /* if move not possible */
-        if (false)
-        {
-        }
+        std::pair<int, int> placedPosition = getPlacedLocations(sensorsBoard, gameContext.msBoard).at(0);
 
         updatePgn(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, placedPosition.first, placedPosition.second);
         updateBoard(gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, placedPosition.first, placedPosition.second);
@@ -89,15 +76,11 @@ void proccessMoveStateMoveMade()
     /* capture */
     else if (gameContext.isCapture)
     {
-        /* if move not possible */
-        if (false)
-        {
-        }
+        gameContext.isCapture = false;
         updatePgn(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
         updateBoard(gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
     }
+    resetFirstAndSecondPieceLiftedLocations(gameContext);
     changeOnMove(gameContext.onMove, gameContext.moveNum);
     changeState(GameStateEnum::RUNNING, MoveStateEnum::IDLE, PieceStateEnum::IDLE);
-    gameContext.firstPieceLiftedLocation = {-1, -1};
-    gameContext.secondPieceLiftedLocation = {-1, -1};
 }

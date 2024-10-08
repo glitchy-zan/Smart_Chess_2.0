@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <network/network.h>
 #include <hardware/button.h>
-#include <hardware/pin_config.h>
 #include <hardware/sensor.h>
 #include <state_machine/state_managing.h>
 
@@ -28,5 +27,4 @@ void loop()
     readSensors();
     handleStates();
     sendUpdate();
-    //delay(2000);
 }

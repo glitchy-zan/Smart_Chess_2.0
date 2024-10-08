@@ -1,29 +1,7 @@
 #include <util/util.h>
 
-/* helper function turning sensor outputs to array */
-void unsignedCharToIntArray(unsigned char value, int *array)
-{
-    for (int i = 0; i < 8; i++)
-    {
-        array[i] = (value & (1 << (7 - i))) ? 1 : 0;
-    }
-}
-
-/* looks at the sensor board and returns true if all pieces are on its starting squares. It can not look if pieces are placed
-correctly since sensors only output 0 or 1 */
-bool isStartingPosition(int sensors_board[8][8])
-{
-    for (int i = 0; i < 8; i++)
-    {
-        if (sensors_board[0][i] == 0 || sensors_board[1][i] == 0 || sensors_board[6][i] == 0 || sensors_board[7][i] == 0)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
 /* given board having 0s and 1s it counts number of 1s (pieces) present */
+/*
 int numberOfPiecesOnBoard(int board[8][8])
 {
     int count = 0;
@@ -37,56 +15,83 @@ int numberOfPiecesOnBoard(int board[8][8])
     }
     return count;
 }
+*/
 
 /* get locations of squares where pieces were lifted; board lifted should be sensors board; board last state should be ms_board */
-std::vector<std::pair<int, int>> getLiftedLocations(int board_lifted[8][8], int board_last_state[8][8])
+std::vector<std::pair<int, int>> getLiftedLocations(int boardLifted[8][8], int boardLastState[8][8])
 {
-    std::vector<std::pair<int, int>> lifted_locations;
+    std::vector<std::pair<int, int>> liftedLocations;
+    int boardLiftedPieceCount = 0;
+    int boardLastStatePieceCount = 0;
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board_lifted[i][j] == 0 && board_last_state[i][j] != 0)
-            {
-                lifted_locations.push_back(std::make_pair(i, j));
-            }
+            if (boardLifted[i][j] != 0)
+                boardLiftedPieceCount++;
+            if (boardLastState[i][j] != 0)
+                boardLastStatePieceCount++;
+            if (boardLifted[i][j] == 0 && boardLastState[i][j] != 0)
+                liftedLocations.push_back(std::make_pair(i, j));
         }
     }
-    return lifted_locations;
+    /* if piece is placed on another square there should be no liftedLocations */
+    if (boardLiftedPieceCount >= boardLastStatePieceCount)
+        liftedLocations.clear();
+    return liftedLocations;
 }
 
 /* get locations of squares where pieces were placed; board placed should be sensors board; board last state should be ms_board */
-std::vector<std::pair<int, int>> getPlacedLocations(int board_placed[8][8], int board_last_state[8][8])
+std::vector<std::pair<int, int>> getPlacedLocations(int boardPlaced[8][8], int boardLastState[8][8])
 {
     std::vector<std::pair<int, int>> placed_locations;
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board_placed[i][j] != 0 && board_last_state[i][j] == 0)
-            {
+            if (boardPlaced[i][j] != 0 && boardLastState[i][j] == 0)
                 placed_locations.push_back(std::make_pair(i, j));
-            }
         }
     }
     return placed_locations;
 }
 
+/* looks at the sensor board and returns true if all pieces are on its starting squares. It can not look if pieces are placed
+correctly since sensors only output 0 or 1 */
+bool isStartingPosition(int sensorsBoard[8][8])
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (sensorsBoard[0][i] == 0 || sensorsBoard[1][i] == 0 || sensorsBoard[6][i] == 0 || sensorsBoard[7][i] == 0)
+            return false;
+    }
+    return true;
+}
+
 /* compares 2 boards and checks if pieces are placed on same squares */
-bool isSamePosition(int board_1[8][8], int board_2[8][8])
+bool isSamePosition(int board1[8][8], int board2[8][8])
 {
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
             /* can compare boards with 0|1 and boards -9|9 */
-            if ((board_1[i][j] == 0 && board_2[i][j] != 0) || (board_1[i][j] != 0 && board_2[i][j] == 0))
-            {
+            if ((board1[i][j] == 0) ^ (board2[i][j] == 0))
                 return false;
-            }
         }
     }
     return true;
+}
+
+/************************************************************************************************/
+
+/* helper function turning sensor outputs to array */
+void unsignedCharToIntArray(unsigned char value, int *array)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        array[i] = (value & (1 << (7 - i))) ? 1 : 0;
+    }
 }
 
 /* happens when player makes a move */
