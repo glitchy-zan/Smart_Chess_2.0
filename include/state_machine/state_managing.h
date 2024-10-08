@@ -23,6 +23,7 @@ struct GameContext
     std::pair<int, int> firstPieceLiftedLocation = {-1, -1};
     std::pair<int, int> secondPieceLiftedLocation = {-1, -1};
     bool isCapture = false;
+    bool opponentsPieceLifted = false;
     /* 0 -> wshort, 1 -> wlong, 2 -> bshort, 3 -> blong */
     int isCastling = -1;
 };
@@ -52,6 +53,7 @@ void resetFirstAndSecondPieceLiftedLocations(GameContext &gameContext);
 bool areKingAndRookLifted(GameContext &gameContext);
 int determineCastlingType(GameContext &gameContext);
 bool isCastlingPlacementValid(GameContext &gameContext);
+bool isPieceLiftedOnMove(GameContext &gameContext);
 
 /* from state_framework.cpp */
 extern GameStateEnum currentGameState;

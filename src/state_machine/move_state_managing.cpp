@@ -77,10 +77,18 @@ void proccessMoveStateMoveMade()
     else if (gameContext.isCapture)
     {
         gameContext.isCapture = false;
-        updatePgn(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
-        updateBoard(gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
+        if (gameContext.opponentsPieceLifted)
+        {
+            updatePgn(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.msBoard, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second);
+            updateBoard(gameContext.msBoard, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second);
+            gameContext.opponentsPieceLifted = false;
+        }
+        else
+        {
+            updatePgn(gameContext.onMove, gameContext.moveNum, gameContext.pgn, gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
+            updateBoard(gameContext.msBoard, gameContext.firstPieceLiftedLocation.first, gameContext.firstPieceLiftedLocation.second, gameContext.secondPieceLiftedLocation.first, gameContext.secondPieceLiftedLocation.second);
+        }
     }
-    resetFirstAndSecondPieceLiftedLocations(gameContext);
     changeOnMove(gameContext.onMove, gameContext.moveNum);
     changeState(GameStateEnum::RUNNING, MoveStateEnum::IDLE, PieceStateEnum::IDLE);
 }

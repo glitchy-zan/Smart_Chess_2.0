@@ -34,6 +34,9 @@ void proccessPieceStateIdle()
     /* TODO should check that piece lifted is from player that is on move */
     if (gameContext.pieceLiftedLocations.size() == 1)
     {
+        // če je piece lifted notOnMove -> potential capture, second piece
+        if (!isPieceLiftedOnMove(gameContext))
+            gameContext.opponentsPieceLifted = true;
         gameContext.firstPieceLiftedLocation = gameContext.pieceLiftedLocations.at(0);
         changeState(GameStateEnum::RUNNING, MoveStateEnum::IN_PROGRESS, PieceStateEnum::PIECE_LIFTED);
     }
@@ -91,7 +94,10 @@ void proccessPieceStateMultiplePiecesLifted()
 {
     /* put pieces back to last move position to continue */
     if (gameContext.pieceLiftedLocations.size() == 0 && isSamePosition(gameContext.msBoard, sensorsBoard))
+    {
+        gameContext.opponentsPieceLifted = false;
         changeState(GameStateEnum::RUNNING, MoveStateEnum::IN_PROGRESS, PieceStateEnum::IDLE);
+    }
 }
 
 void proccessPieceStateCastling()

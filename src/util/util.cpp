@@ -112,6 +112,11 @@ void updateBoard(int board[8][8], int posStartRow, int posStartCol, int posEndRo
     int piece = board[posStartRow][posStartCol];
     board[posStartRow][posStartCol] = 0;
     board[posEndRow][posEndCol] = piece;
+    /* handle promotion */
+    if (piece == -1 && posEndRow == 0)
+        board[posEndRow][posEndCol] = -5;
+    else if (piece == 1 && posEndRow == 7)
+        board[posEndRow][posEndCol] = 5;
 }
 
 // Transforms column to file (A-H)
@@ -191,12 +196,12 @@ String generatePgnMove(int board[8][8], int startRow, int startCol, int endRow, 
 
         move += squareToString(endRow, endCol);
     }
-    // Handle promotions (not included in this basic example)
-    // if (promotion) {
-    //     move += "=";
-    //     move += piece_char(promotion);
-    // }
-
+    /* handle promotions */
+    if ((piece == -1 && endRow == 0) || (piece == 1 && endRow == 7))
+    {
+        move += "=";
+        move += 'Q';
+    }
     return move;
 }
 // Updates pgn

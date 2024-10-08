@@ -80,8 +80,14 @@ bool isCastlingPlacementValid(GameContext &gameContext)
     else if (gameContext.isCastling == 1)
         return (gameContext.piecePlacedLocations.at(0).first == 0 && gameContext.piecePlacedLocations.at(0).second == 5 && gameContext.piecePlacedLocations.at(1).first == 0 && gameContext.piecePlacedLocations.at(1).second == 4) || (gameContext.piecePlacedLocations.at(1).first == 0 && gameContext.piecePlacedLocations.at(1).second == 5 && gameContext.piecePlacedLocations.at(0).first == 0 && gameContext.piecePlacedLocations.at(0).second == 4);
     else if (gameContext.isCastling == 2)
-        (gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 2 && gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 1) || (gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 2 && gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 1);
+        return (gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 2 && gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 1) || (gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 2 && gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 1);
     else if (gameContext.isCastling == 3)
         return (gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 5 && gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 4) || (gameContext.piecePlacedLocations.at(1).first == 7 && gameContext.piecePlacedLocations.at(1).second == 5 && gameContext.piecePlacedLocations.at(0).first == 7 && gameContext.piecePlacedLocations.at(0).second == 4);
     return false;
+}
+
+bool isPieceLiftedOnMove(GameContext &gameContext)
+{
+    int pieceLifted = gameContext.msBoard[gameContext.pieceLiftedLocations.at(0).first][gameContext.pieceLiftedLocations.at(0).second];
+    return ((pieceLifted > 0 && gameContext.onMove == 1) || (pieceLifted < 0 && gameContext.onMove == 0));
 }
