@@ -54,6 +54,7 @@ bool areKingAndRookLifted(GameContext &gameContext);
 int determineCastlingType(GameContext &gameContext);
 bool isCastlingPlacementValid(GameContext &gameContext);
 bool isPieceLiftedOnMove(GameContext &gameContext);
+bool areKingAndRookLiftedAndSameColor(GameContext &gameContext);
 
 /* from state_framework.cpp */
 extern GameStateEnum currentGameState;

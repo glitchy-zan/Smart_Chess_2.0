@@ -1,11 +1,15 @@
 #include <state_machine/piece_state_managing.h>
 
+unsigned long lastSensorChangeTime = 0;
+const unsigned long DEBOUNCE_DELAY = 200;
+
 void handlePieceState()
 {
     switch (currentPieceState)
     {
     case PieceStateEnum::IDLE:
         resetFirstAndSecondPieceLiftedLocations(gameContext);
+        gameContext.isCapture = false;
         proccessPieceStateIdle();
         break;
     case PieceStateEnum::PIECE_LIFTED:
@@ -67,7 +71,7 @@ void proccessPieceStatePieceLifted()
         /* pieceLiftedLocations is constantly updating and we can not be sure that firstaliftedPiece is at first place */
         gameContext.secondPieceLiftedLocation = (gameContext.pieceLiftedLocations.at(0) == gameContext.firstPieceLiftedLocation) ? gameContext.pieceLiftedLocations.at(1) : gameContext.pieceLiftedLocations.at(0);
         /* if rook and king are lifted we go in castling state */
-        if (areKingAndRookLifted(gameContext))
+        if (areKingAndRookLiftedAndSameColor(gameContext))
             changeState(GameStateEnum::RUNNING, MoveStateEnum::IN_PROGRESS, PieceStateEnum::CASTLING);
         else
             changeState(GameStateEnum::RUNNING, MoveStateEnum::IN_PROGRESS, PieceStateEnum::SECOND_PIECE_LIFTED);
@@ -118,6 +122,12 @@ void proccessPieceStateCastling()
 /* from here we can only go to multiple pieces lifted unless move is made by button press */
 void proccessPieceStateChanged()
 {
+    /* debounce when making moves */
+    unsigned long currentTime = millis();
+    if (currentTime - lastSensorChangeTime < DEBOUNCE_DELAY)
+        return;
+    lastSensorChangeTime = currentTime;
+
     if (gameContext.pieceLiftedLocations.size() != 0 && !gameContext.isCapture)
         changeState(GameStateEnum::RUNNING, MoveStateEnum::IN_PROGRESS, PieceStateEnum::MULTIPLE_PIECES_LIFTED);
     else if (gameContext.pieceLiftedLocations.size() != 1 && gameContext.isCapture)

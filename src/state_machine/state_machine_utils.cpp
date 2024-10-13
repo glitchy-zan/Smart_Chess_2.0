@@ -4,7 +4,10 @@
 void checkButtonPressed()
 {
     if (!flagButtonPressed || currentPieceState != PieceStateEnum::CHANGED)
+    {
+        flagButtonPressed = false;
         return;
+    }
     changeState(GameStateEnum::RUNNING, MoveStateEnum::MOVE_MADE, PieceStateEnum::IDLE);
     flagButtonPressed = false;
 }
@@ -44,6 +47,15 @@ bool areKingAndRookLifted(GameContext &gameContext)
     if ((abs(firstPiece) == 4 && abs(secondPiece) == 6) || (abs(firstPiece) == 6 && abs(secondPiece) == 4))
         return true;
     return false;
+}
+
+bool areKingAndRookLiftedAndSameColor(GameContext &gameContext)
+{
+    int firstPiece = gameContext.msBoard[gameContext.firstPieceLiftedLocation.first][gameContext.firstPieceLiftedLocation.second];
+    int secondPiece = gameContext.msBoard[gameContext.secondPieceLiftedLocation.first][gameContext.secondPieceLiftedLocation.second];
+    if (firstPiece > 0 ^ secondPiece > 0)
+        return false;
+    return areKingAndRookLifted(gameContext);
 }
 
 void resetMsBoard()
