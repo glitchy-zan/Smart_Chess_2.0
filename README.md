@@ -16,6 +16,7 @@ This project turns a traditional chessboard into a smart chessboard using an ESP
 - [Software Installation](#software-installation)
 - [How It Works](#how-it-works)
 - [Video presentation](#Video-presentation)
+- [Additional Android Application](#Additional-Android-Application)
 
 ## Getting Started
 
@@ -57,3 +58,6 @@ To run this project, you will need:
 
 ### Video presentation
 yt: https://youtube.com/shorts/g3ANoQOUdOU
+
+### Additional Android Application
+github: https://github.com/glitchy-zan/SmartChess2.0_AndroidApp
